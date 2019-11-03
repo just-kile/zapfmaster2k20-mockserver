@@ -1,0 +1,7 @@
+div#log {
+    font-family: monospace;
+    width: 800px;
+    height: 500px;
+    background-color: lightgray;
+    overflow: auto;
+}

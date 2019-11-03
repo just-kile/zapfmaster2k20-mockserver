@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Zapfmaster2k20 Mockdata</title>
+</head>
+
+<body>
+    <!-- <form action="/draw" method="post" target="iframe"> -->
+    <form>
+        <label for="interval">Measurement interval [ms]</label>
+        <input type="number" name="mmt_interval" value="200" />
+        <br />
+        <label for="speed">Draw speed [ml/minute]</label>
+        <input type="number" name="speed" value="2000" />
+        <br />
+        <label for="size">Glass size [ml]</label>
+        <input type="number" name="amount" value="200" />
+        <br />
+    </form>
+    <button onclick="postData()">Start Drawing</button>
+    <button onclick="clearLog()">Clear Log</button>
+
+    <div id="log-container">
+        <span>Websocket results</span>
+        <div id="log"></div>
+    </div>
+
+    <script src="./scripts.js"></script>
+</body>
+
+</html>

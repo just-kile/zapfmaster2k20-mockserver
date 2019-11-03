@@ -27,13 +27,13 @@ wss.on('connection', (ws) => {
     });
 
     //send immediatly a feedback to the incoming connection    
-    ws.send('Hi there, I am a WebSocket server');
+    ws.send(JSON.stringify({ event: 'welcome' }));
 });
 
 function broadcast(event, data) {
     wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({event, data}));
+            client.send(JSON.stringify({ event, data }));
         }
     });
 }
@@ -46,10 +46,11 @@ function drawProcess(opt) {
     const drawAmountPerTick = speed / 60 / 1000 * 200;
 
     let current = 0;
+    broadcast('Start-Drawing', opt);
     const drawIntervalId = setInterval(() => {
         current += drawAmountPerTick * (Math.random() + 0.5);
         console.log('current', current);
-        broadcast('draw', current)
+        broadcast('draw', current);
         if (current >= total) {
             clearInterval(drawIntervalId);
         }
