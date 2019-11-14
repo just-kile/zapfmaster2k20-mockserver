@@ -11,18 +11,33 @@
 
 <body>
     <!-- <form action="/draw" method="post" target="iframe"> -->
-    <form>
-        <label for="interval">Measurement interval [ms]</label>
-        <input type="number" name="mmt_interval" value="200" />
-        <br />
-        <label for="speed">Draw speed [ml/minute]</label>
-        <input type="number" name="speed" value="2000" />
-        <br />
-        <label for="size">Glass size [ml]</label>
-        <input type="number" name="amount" value="200" />
-        <br />
-    </form>
-    <button onclick="postData()">Start Drawing</button>
+    <div id="inputs">
+        <div>
+            <h2>Draw</h2>
+            <form id="drawForm">
+                <label for="interval">Measurement interval [ms]</label>
+                <input type="number" name="mmt_interval" value="200" />
+                <br />
+                <label for="speed">Draw speed [ml/minute]</label>
+                <input type="number" name="speed" value="2000" />
+                <br />
+                <label for="size">Glass size [ml]</label>
+                <input type="number" name="amount" value="200" />
+                <br />
+            </form>
+            <button onclick="postData()">Start Drawing</button>
+        </div>
+        <div>
+            <h2>Keg</h2>
+            <div><span id="currentKeg"></span></div>
+            <form id="kegForm">
+                <label for="keg">New Keg</label>
+                <input type="number" name="size" value="30">
+            </form>
+            <button onclick="newKeg()">New Keg</button>
+        </div>
+    </div>
+
     <button onclick="clearLog()">Clear Log</button>
 
     <div id="log-container">

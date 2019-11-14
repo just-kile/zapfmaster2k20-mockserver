@@ -6,6 +6,10 @@ const WebSocket = require('ws');
 const app = express();
 const port = 3000;
 
+const keg = {
+    weight: 50 * 1000
+};
+
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -38,6 +42,21 @@ function broadcast(event, data) {
     });
 }
 
+function resetKeg(newKeg) {
+    keg.weight = newKeg.weight;
+    console.log('Keg set to', keg);
+    broadcast('keg', keg);
+}
+
+function draw(amount) {
+    keg.weight -= amount;
+    if (keg.weight < 0) {
+        ekg.weight = 0;
+        throw new Error('Keg was overdrawn.');
+    }
+    broadcast('draw', keg);
+}
+
 function drawProcess(opt) {
     console.log('starting drawProcess');
     const measurementInterval = opt.mmt_interval || 200;
@@ -48,11 +67,15 @@ function drawProcess(opt) {
     let current = 0;
     broadcast('Start-Drawing', opt);
     const drawIntervalId = setInterval(() => {
-        current += drawAmountPerTick * (Math.random() + 0.5);
-        console.log('current', current);
-        broadcast('draw', current);
-        if (current >= total) {
-            clearInterval(drawIntervalId);
+        try {
+            const drawAmount = drawAmountPerTick * (Math.random() + 0.5);
+            draw(drawAmount);
+            current += drawAmount;
+            if (current >= total) {
+                clearInterval(drawIntervalId);
+            }
+        } catch (e) {
+
         }
     }, measurementInterval);
 }
@@ -61,6 +84,12 @@ app.post('/draw', (req, res) => {
     console.log('draw', req.body);
     drawProcess(req.body);
     res.send('draw received');
+});
+
+app.post('/keg', (req, res) => {
+    const newKeg = { weight: req.body.size * 1000 };
+    resetKeg(newKeg);
+    res.send('keg received');
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

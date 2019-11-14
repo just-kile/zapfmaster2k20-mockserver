@@ -5,3 +5,12 @@ div#log {
     background-color: lightgray;
     overflow: auto;
 }
+
+#inputs {
+    display: flex;
+    justify-content: space-between;
+}
+
+#inputs > div {
+    flex-grow: 1;
+}

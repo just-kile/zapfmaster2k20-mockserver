@@ -33,12 +33,28 @@ function clearLog() {
     eLog.innerHTML = '';
 }
 
-async function postData() {
-    let formEl = document.querySelector('form');
+function getFormData(formSelector) {
+    let formEl = document.querySelector(formSelector);
     let formData = new FormData(formEl);
     let data = {};
     Array.from(formData.entries()).forEach(([key, val]) => data[key] = val);
+    return data;
+}
+
+async function postData() {
+    let data = getFormData('form#drawForm');
     return fetch('/draw', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+async function newKeg() {
+    let data = getFormData('form#kegForm');
+    return fetch('/keg', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
